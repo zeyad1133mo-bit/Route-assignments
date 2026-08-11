@@ -107,6 +107,13 @@ app.delete("/user/:id", (req, res) => {
 });
 
 
+function readUsers() {
+  const data = fs.readFileSync(usersFilePath, 'utf-8');
+  return JSON.parse(data);
+}
+function writeUsers(users) {
+  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+}
 
 
 app.get('/user/getByName', (req, res) => {
