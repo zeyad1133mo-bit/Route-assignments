@@ -52,7 +52,7 @@ app.post('/data', (req, res) => {
             }
         });
     });
-
+res.json({ message: "User added successfully", user: req.body })
 
 });
 
@@ -73,6 +73,7 @@ app.patch("/user/:id", (req, res) => {
         }
 
     });
+    res.json({ message: "User updated successfully", user });
 
 });
 
