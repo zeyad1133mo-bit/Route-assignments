@@ -1,0 +1,59 @@
+CREATE DATABASE IF NOT EXISTS musicana;
+USE musicana;
+
+CREATE TABLE Musician (
+    MusicianID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Street VARCHAR(100),
+    City VARCHAR(100),
+    Phone VARCHAR(15)
+);
+
+CREATE TABLE Instrument (
+    InstrumentName VARCHAR(100) PRIMARY KEY,
+    MusicalKey VARCHAR(50)
+);
+
+CREATE TABLE Album (
+    AlbumID INT PRIMARY KEY,
+    Title VARCHAR(200) UNIQUE,
+    CopyrightDate DATE,
+    ProducerID INT NOT NULL,
+    FOREIGN KEY (ProducerID)
+        REFERENCES Musician(MusicianID)
+);
+
+CREATE TABLE Song (
+    SongTitle VARCHAR(200) PRIMARY KEY,
+    Author VARCHAR(100),
+    AlbumID INT NOT NULL,
+    FOREIGN KEY (AlbumID)
+        REFERENCES Album(AlbumID)
+);
+
+CREATE TABLE Musician_Instrument (
+    MusicianID INT,
+    InstrumentName VARCHAR(100),
+
+    PRIMARY KEY (MusicianID, InstrumentName),
+
+    FOREIGN KEY (MusicianID)
+        REFERENCES Musician(MusicianID),
+
+    FOREIGN KEY (InstrumentName)
+        REFERENCES Instrument(InstrumentName)
+);
+
+CREATE TABLE Musician_Song (
+    MusicianID INT,
+    SongTitle VARCHAR(200),
+
+    PRIMARY KEY (MusicianID, SongTitle),
+
+    FOREIGN KEY (MusicianID)
+        REFERENCES Musician(MusicianID),
+
+    FOREIGN KEY (SongTitle)
+        REFERENCES Song(SongTitle)
+);
+
