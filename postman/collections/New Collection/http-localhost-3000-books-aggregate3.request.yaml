@@ -1,0 +1,10 @@
+$kind: http-request
+name: |-
+  
+  http://localhost:3000/books/aggregate3
+description: ""
+url: |-
+  
+  http://localhost:3000/books/aggregate3
+method: GET
+order: 1791331115132

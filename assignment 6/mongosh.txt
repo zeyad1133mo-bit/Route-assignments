@@ -1,0 +1,155 @@
+
+
+// Q1
+db.createCollection("books", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["title"],
+            properties: {
+                title: {
+                    bsonType: "string",
+                    minLength: 1
+                }
+            }
+        }
+    }
+})
+
+
+// Q2
+db.authors.insertOne({
+    name: "George Orwell",
+    nationality: "British"
+})
+
+
+// Q3
+db.createCollection("logs", {
+    capped: true,
+    size: 1024 * 1024
+})
+
+
+// Q4
+db.books.createIndex({ title: 1 })
+
+
+// Q5
+db.books.insertOne({
+    title: "Brave New World",
+    author: "Aldous Huxley",
+    year: 1932,
+    genres: ["Dystopian", "Science Fiction"]
+})
+
+// Q6
+db.books.insertMany([
+    {
+        title: "Future",
+        author: "John Scalzi",
+        year: 2005,
+        genres: ["Science Fiction"]
+    },
+    {
+        title: "The Hobbit",
+        author: "J.R.R. Tolkien",
+        year: 1937,
+        genres: ["Fantasy", "Adventure"]
+    },
+    {
+        title: "Dune",
+        author: "Frank Herbert",
+        year: 1965,
+        genres: ["Science Fiction", "Adventure"]
+    },
+    {
+        title: "The Shining",
+        author: "Stephen King",
+        year: 1977,
+        genres: ["Horror", "Thriller"]
+    },
+    {
+        title: "Kafka on the Shore",
+        author: "Haruki Murakami",
+        year: 2002,
+        genres: ["Fiction", "Magical Realism"]
+    }
+])
+
+
+// Q7
+db.logs.insertOne({
+    action: "INSERT",
+    bookTitle: "Brave New World",
+    createdAt: new Date()
+})
+
+
+// Q8
+db.books.updateOne(
+    { title: "Future" },
+    { $set: { year: 2022 } }
+)
+
+// Q9
+db.books.findOne({ title: "Brave New World" })
+
+
+// Q10
+db.books.find({ year: { $gte: 1990, $lte: 2010 } })
+
+
+// Q11
+db.books.find({ genres: "Science Fiction" })
+
+
+// Q12
+c
+
+// Q13
+db.books.find({ year: { $type: "int" } })
+
+
+// Q14
+db.books.find({ genres: { $nin: ["Horror", "Science Fiction"] } })
+
+
+
+// Q15
+db.books.deleteMany({ year: { $lt: 2000 } })
+
+
+// Q16:
+db.books.aggregate([
+    { $match: { year: { $gt: 2000 } } },
+    { $sort: { year: -1 } }
+])
+
+
+
+// Q17: 
+db.books.aggregate([
+    { $match: { year: { $gt: 2000 } } },
+    { $project: { _id: 0, title: 1, author: 1, year: 1 } }
+])
+
+
+
+// Q18
+db.books.aggregate([
+    { $unwind: "$genres" }
+])
+
+
+// Q19
+db.books.aggregate([
+    {
+        $lookup: {
+            from: "logs",
+            localField: "title",
+            foreignField: "bookTitle",
+            as: "bookLogs"
+        }
+    }
+])
