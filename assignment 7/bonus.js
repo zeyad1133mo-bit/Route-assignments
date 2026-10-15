@@ -3,7 +3,7 @@ var longestCommonPrefix = function(strs) {
 
     let prefix = strs[0];
 
-    for (let i = 1; i < strs.length; i++) {
+    for (let i = 1; i < strs.length; i++) { 
         while (!strs[i].startsWith(prefix)) {
             prefix = prefix.slice(0, -1);
             if (prefix === "") return "";
@@ -12,7 +12,7 @@ var longestCommonPrefix = function(strs) {
 
     return prefix;
 };
-console.log(longestCommonPrefix(["flower", "flow", "flight"]));  // "fl"
-console.log(longestCommonPrefix(["dog", "racecar", "car"]));     // ""
-console.log(longestCommonPrefix(["interspecies", "interstellar", "interstate"])); // "inters"
+console.log(longestCommonPrefix(["flower", "flow", "flight"]));  
+console.log(longestCommonPrefix(["dog", "racecar", "car"]));     
+console.log(longestCommonPrefix(["interspecies", "interstellar", "interstate"]));
 console.log(longestCommonPrefix(["a"])); 
