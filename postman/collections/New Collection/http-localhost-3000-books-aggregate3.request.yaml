@@ -5,6 +5,15 @@ name: |-
 description: ""
 url: |-
   
-  http://localhost:3000/books/aggregate3
-method: GET
+  http://localhost:3000/users/login
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"ahmed@test.com\",\r
+
+    \    \"password\": \"123456\"\r
+
+    }"
 order: 1791331115132

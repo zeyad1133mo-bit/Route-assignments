@@ -1,0 +1,19 @@
+$kind: http-request
+name: http://localhost:3000/users/6ad116df80008831ff1177c5
+description: ""
+url: |-
+  
+  http://localhost:3000/notes?userId=6ad1388aaa2d3a9f06f46717
+method: POST
+queryParams:
+  userId: 6ad1388aaa2d3a9f06f46717
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"My First Note\",\r
+
+    \    \"content\": \"This is my first sticky note\"\r
+
+    }"
+order: 1791331117132

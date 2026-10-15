@@ -1,0 +1,25 @@
+$kind: http-request
+name: |-
+  
+  http://localhost:3000/users/6ad116df80008831ff1177c5
+description: ""
+url: |-
+  
+  http://localhost:3000/users/signup
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Zeyad\",\r
+
+    \    \"email\": \"zeyadmo.com\",\r
+
+    \    \"password\": \"123456\",\r
+
+    \    \"phone\": \"01001234567\",\r
+
+    \    \"age\": 20\r
+
+    }"
+order: 1791331118132

@@ -1,7 +1,7 @@
 
+ 
 
-
-var romanToInt = function (s) {
+var romanToInt = function(s) {
     const map = {
         I: 1,
         V: 5,
@@ -29,8 +29,8 @@ var romanToInt = function (s) {
 };
 
 
-console.log(romanToInt("III"));
-console.log(romanToInt("IV"));
-console.log(romanToInt("IX"));
-console.log(romanToInt("LVIII"));
+console.log(romanToInt("III"));     
+console.log(romanToInt("IV"));      
+console.log(romanToInt("IX"));      
+console.log(romanToInt("LVIII"));   
 console.log(romanToInt("MCMXCIV")); 
