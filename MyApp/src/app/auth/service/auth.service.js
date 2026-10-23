@@ -4,6 +4,8 @@ import * as userRepository from "../../user/repository/user.repository.js";
 import bcrypt from "bcrypt";
 import crypto from "node:crypto";
 import jwt from "jsonwebtoken";
+import {hashPassword, comparePassword} from "../utils/hash.js";
+import { generateToken } from "../utils/token.js";
 import { sendMail } from "../../../common/email/nodemailer.js";
 import { otpExpired, invalidCode, invalidPassword } from "../errors.js";
 import { userAlreadyVerified, userNotExist, userAlreadyExist, userNotVerified, } from "../../user/errors.js";
@@ -22,7 +24,7 @@ export async function register(userData) {
 
     //3. prepare data [hash-password]
 
-    userData.password = await bcrypt.hash(userData.password, 10);
+    userData.password = await hashPassword(userData.password);
 
     //4. save user into DB -> is verified: false
 
@@ -77,13 +79,11 @@ export async function login(email, password) {
     // 1.2 not verified 
     if (user.isVerified === false) throw userNotVerified;
     // 2 compare password
-    const match = await bcrypt.compare(password, user.password);
+    const match = await comparePassword(password, user.password);
     if (!match) throw invalidPassword;
     // 3 generate access token
-    const token = jwt.sign({ id: user.__id, email: user.email, name: user.name },
-        'proccess.env.JWT_SECRET',
-        { expiresIn: toMs(1, 'hours') })
-        return token;
+   
+        return generateToken({ id: user._id, email: user.email, role: user.role });
 }
 
 export async function sendOtp(email, message) {
@@ -102,4 +102,22 @@ export async function sendOtp(email, message) {
     });
     // 4. send otp email
     await sendMail(email, 'new otp', `<p>your otp is ${code} </p>`);
+}
+
+
+async function resetPassword(email, code, newPassword) {
+
+    // 1. check otp existence
+    const otp = await otpRepository.getOtpByEmail(email);
+    if (!otp) throw otpExpired;
+    // 2. check code validity
+    if (otp.code !== code) throw invalidCode;
+    // 3. hash new password
+    const hashedPassword = await hashPassword(newPassword);
+    // 4. update user password
+    await userRepository.updateUserByEmail(email, { password: hashedPassword });
+    // 5. delete all otps for this email
+    await otpRepository.deleteOTPsByEmail(email);
+    // 6. delete otp from db
+    await otpRepository.deleteOTPByEmail(email);
 }

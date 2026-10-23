@@ -4,6 +4,7 @@ import messageRouter from './app/message/message.route.js';
 import userRouter from './app/user/user.route.js';
 import { connectDB } from './common/db/mongoose.js';
 import { OTP } from './app/auth/model/otp.model.js';
+
 import {logger} from './common/logger/logger.js'
 
 const app = express();
@@ -21,11 +22,11 @@ app.use((err,req,res,next) => {
     return res.status(err.statusCode || 500).json({
     message: err.message,
     success: false,
-  
+
   })}
   return res.status(500).json({
     error: 'Something went wrong',
-    success: false 
+    success: false
   })
 })
 await connectDB();
