@@ -50,3 +50,18 @@ res.json({
         next(error);
     }
 }
+
+export async function sendotp(req,res,next){
+    try{
+const {email} = req.body;
+await authService.sendOtp(email);
+res.json({
+    message: "new otp sent, check user email",
+    success: true
+})
+
+
+    }catch(error){
+next(error)
+    }
+}

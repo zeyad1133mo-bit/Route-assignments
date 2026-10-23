@@ -8,7 +8,7 @@ import { sendMail } from "../../../common/email/nodemailer.js";
 import { otpExpired, invalidCode, invalidPassword } from "../errors.js";
 import { userAlreadyVerified, userNotExist, userAlreadyExist, userNotVerified, } from "../../user/errors.js";
 import { toMs, toSeconds } from "../../../common/utlits/time.js"
-
+import { generateOTPCode } from "../../../common/utlits/otp.js";
 
 export async function register(userData) {
 
@@ -30,16 +30,16 @@ export async function register(userData) {
 
     //5. save otp into DB
 
-    const otp = crypto.randomInt(100000, 999999).toString();
+    const code = generateOTPCode();
     await otpRepository.createOTP({
-        code: otp,
+        code: code,
         email: userData.email,
         expiresAt: new Date(Date.now() + toMs(5, 'minutes')),
     });
 
     //6. send email verification OTP
 
-    await sendMail(userData.email, 'verification code', `<h1>Your verification code is ${otp} </h1>`);
+    await sendMail(userData.email, 'verification code', `<h1>Your verification code is ${code} </h1>`);
 
     return createUser;
 
@@ -62,7 +62,7 @@ export async function verifyAcount(email, code) {
     // 3 switch your isVerified to true [update user]
     const updatedUser = await userRepository.updateUserByEmail(email, { isVerified: true });
     // 4. delete otp from db
-    await otpRepository.deleteOTP(email);
+    await otpRepository.deleteOTPsByEmail(email);
 
     return updatedUser;
 
@@ -86,3 +86,20 @@ export async function login(email, password) {
         return token;
 }
 
+export async function sendOtp(email, message) {
+    // 1. check User existence
+    const user = await authRepositorty.checkUserExistByEmail(email);
+    if (!user) throw userNotExist;
+    // 2. delete all old OTP
+    await otpRepository.deleteOTPsByEmail(email);
+    // 3. generate otp and save into database
+    const code = generateOTPCode();
+    // save into db
+    await otpRepository.createOTP({
+        code: code,
+        email: email,
+        expiresAt: new Date(Date.now() + toMs(5, 'minutes')),
+    });
+    // 4. send otp email
+    await sendMail(email, 'new otp', `<p>your otp is ${code} </p>`);
+}

@@ -9,7 +9,7 @@ export async function getOtpByEmail(email){
         email:email,
     });
 }
-export async function deleteOTP(email){
+export async function deleteOTPsByEmail(email){
     return await OTP.deleteMany({
         email: email     
     })
