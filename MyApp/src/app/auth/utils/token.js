@@ -4,6 +4,6 @@ import { toMs } from '../../../common/utlits/time.js';
 
 export function generateToken(payload) {
   return jwt.sign(payload,
-          process.env.JWT_SECRET,
-          { expiresIn: toMs(1, 'hours') });
+    process.env.JWT_SECRET,
+    { expiresIn: toMs(1, 'hours') });
 }

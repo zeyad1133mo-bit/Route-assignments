@@ -119,5 +119,5 @@ async function resetPassword(email, code, newPassword) {
     // 5. delete all otps for this email
     await otpRepository.deleteOTPsByEmail(email);
     // 6. delete otp from db
-    await otpRepository.deleteOTPByEmail(email);
+    await otpRepository.deleteOTPByEmail(email);                                                                                                                                                                 
 }
