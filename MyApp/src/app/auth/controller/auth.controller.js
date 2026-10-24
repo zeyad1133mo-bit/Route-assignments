@@ -1,7 +1,7 @@
 import { toMs } from "../../../common/utlits/time.js";
 import * as authService from "../service/auth.service.js";
 import { validateBody } from "../../../common/validation/validation.js";
-import { registerDTO,verifyAccountDTO,resetPasswordDTO, sendOtpDTO } from "../dto/auth.dot.js";
+import { registerDTO, verifyAccountDTO, resetPasswordDTO, sendOtpDTO, loginDTO } from "../dto/auth.dot.js";
 
 export async function register(req, res, next) {
 
@@ -76,7 +76,7 @@ export async function sendotp(req, res, next) {
     }
 }
 
-async function resetPassword(req, res, next) {
+export async function resetPassword(req, res, next) {
 
 
     try {

@@ -27,7 +27,7 @@ export const verifyAccountDTO = z.object({
 
 export const sendOtpDTO = z.object({
 
-    emil: z.email().lowercase().trim(),
+    email: z.email().lowercase().trim(),
 })
 
 

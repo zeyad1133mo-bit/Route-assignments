@@ -105,7 +105,7 @@ export async function sendOtp(email, message) {
 }
 
 
-async function resetPassword(email, code, newPassword) {
+export async function resetPassword(email, code, newPassword) {
 
     // 1. check otp existence
     const otp = await otpRepository.getOtpByEmail(email);
